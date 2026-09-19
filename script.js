@@ -14,10 +14,25 @@ function divide(x, y) {
   return x / y;
 }
 
+function remove() {
+}
+
+function clear() {
+}
+
+function negative() {
+}
+
+function equals(x, y, obj, key) {
+  output = (obj[`${key}`](x, y));
+  return output;
+}
+
 let input = '';
 let history = '';
+let operation;
 let x;
-let y;
+let y = 2;
 
 function calculator() {
   createEventListeners();
@@ -38,21 +53,23 @@ function createEventListeners() {
     'zero',
     'decimal',
   ];
-  const functionClasses = [
-    'remove',
-    'clear',
-    'divide',
-    'multiply',
-    'minus',
-    'plus',
-    'negative',
-    'equals',
-  ]
+
+  const operations = {
+    delete: remove,
+    clear: clear,
+    divide: divide,
+    multiply: multiply,
+    minus: subtract,
+    plus: add,
+    negative: negative,
+    equals: equals,
+  }
+
+  const readout = document.querySelector('.readout');
 
   for (let inputs of inputClasses) {
     const btn = document.querySelector('.' + inputs);
     const value = btn.textContent;
-    const readout = document.querySelector('.readout');
 
     btn.addEventListener('click', () => {
       input += value;
@@ -62,6 +79,26 @@ function createEventListeners() {
     })
     console.log(input);
   }
+
+  const operationKeys = Object.keys(operations);
+  console.table(operationKeys);
+
+  for (let key of operationKeys) {
+    const btn = document.querySelector('.' + key);
+
+    if (key === 'equals') {
+      btn.addEventListener('click', () => {
+        const output = equals(x, y, operations, 'plus');
+        input = output;
+        readout.innerText = output;
+      })
+    } else btn.addEventListener('click', () => {
+      console.log(key);
+      x = Number(input);
+      input = '';
+    })
+  }
 }
+
 createEventListeners();
 console.log(add(1, 3), subtract(1, 4), multiply(3.5, 3), divide(27, 2));
