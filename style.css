@@ -1,61 +1,105 @@
+* {
+    font-family: "HelveticaNeue-UltraLight", "Helvetica Ultra Light", "Helvetica Neue", Helvetica, Arial, sans-serif; 
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    box-sizing: border-box;
+    height: 100vh;
+    width: 100vw;
+    background-color: #000;
+    color: #fff;
+}
+
+.container {
+    display: flex;
+    align-items: flex-end;
+    min-height: 100%;
+}
+
 .calculatorContainer {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 50%;
-    width: 50%;
-    margin: auto;
+    height: 100%;
+    width: 100%;
+    max-height: 956px;
+    max-width: 440px;
+    padding: 0 10px 10% 10px;
 }
 
 .calculatorScreen {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100%;
-    min-width: 100%;
-    border: 4px solid black;
-    background-color: grey;
+    flex-direction: column;
+    align-items: flex-end;
+    min-height: 6vh;
+    max-width: 94%;
+    border: 0 solid black;
+    font-size: 5vh;
+    margin-bottom: 2vh;
 }
 
-.buttonsContainer {
+.history {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    height: 100%;
-    width: 100%;
+    text-align: left;
+    color: grey;
+    font-size: 4vh;
 }
 
-.functionsContainer {
+.readout {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
+    align-items: center;
+    text-align: right;
 }
 
 .buttonsContainer {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    align-items: stretch;
+    min-height: 100%;
+    min-width: 100%;
+    row-gap: 1vh;
 }
 
 .row {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: stretch;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1vw;
 }
 
 button {
     display: flex;
     flex-basis: 20%;
-    /* aspect-ratio: 1/1; */
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+    border-radius: 5vh;
+    font-size: 4vh;
+    border: 4px solid;
+    color: #fff;
+}
+
+.number {
+    background-color: gray;
+    border-color: grey;
+}
+
+.function {
     background-color: orange;
-    border: 4px solid orange;
-    border-radius: 4px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: xx-large;
-    margin: 1%;
+    border-color: orange;
+    font-size: 6vh;
+    padding-bottom: 10px;
+}
+
+.modifier {
+    background-color: darkgray;
+    border-color: darkgrey;
+}
+
+.deleteBtn {
+  padding-right: 4px;
 }
