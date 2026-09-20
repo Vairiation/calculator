@@ -27,6 +27,8 @@ body {
     max-height: 956px;
     max-width: 440px;
     padding: 0 10px 10% 10px;
+    margin: auto;
+    margin-bottom: 0;
 }
 
 .calculatorScreen {
