@@ -47,30 +47,19 @@ function clear() {
   clearBtn.innerText = 'AC';
 }
 
-function negative() {
-  if (input) {
-    tmp = normalizeInput(input);
-    tmp *= -1;
-    input = tmp;
-    readout.innerText = input;
-  } else if (output) {
-    tmp = normalizeInput(input);
-    tmp *= -1;
-    input = tmp;
-    readout.innerText = input;
+function negative(number) {
+  if (number) {
+    return number * -1;
   }
 }
 
 function percent(number) {
-  let tmp = normalizeInput(number);
-  if (tmp) {
-    tmp /= 100;
-    input = tmp;
-    readout.innerText = input;
-  }
-
-  if (input % 1 !== 0) {
-    decimalBtn.disabled = true;
+  if (number) {
+    let tmp = number / 100;
+    if (tmp % 1 !== 0) {
+      decimalBtn.disabled = true;
+    }
+    return tmp;
   }
 
 }
@@ -180,10 +169,13 @@ function createoperatorListeners() {
   for (let key of operatorKeys) {
     const btn = document.querySelector('.' + key);
 
-    if (key == 'clear' || key === 'remove' || key === 'negative') {
+    if (key == 'clear' || key === 'remove') {
       btn.addEventListener('click', () => operators[`${key}`]());
-    } else if (key === 'percent') {
-      btn.addEventListener('click', () => percent(input));
+    } else if (key === 'negative' || key === 'percent') {
+      btn.addEventListener('click', () => {
+        input = operators[`${key}`](normalizeInput(input));
+        readout.innerText = input;
+      })
     } else if (key === 'equals') { // create equals operator event listener
       btn.addEventListener('click', () => {
         if ((numbers[0] || numbers[0] === 0) && input) {
