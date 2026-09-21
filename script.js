@@ -5,7 +5,6 @@ let numbers = [];
 const readout = document.querySelector('.readout');
 const history = document.querySelector('.history');
 const clearBtn = document.querySelector('.clear');
-let showHistory = false;
 
 function add(x, y) {
   return x + y;
@@ -42,7 +41,6 @@ function clear() {
   numbers = [];
   readout.innerText = '';
   history.innerText = '';
-  showHistory = false;
   clearBtn.innerText = 'AC';
 }
 
@@ -77,9 +75,14 @@ function percent() {
 function operate(array, obj, key) {
   const firstNumber = normalizeInput(array[0]);
   const secondNumber = normalizeInput(array[1]);
-  if (showHistory) {
-    history.innerText = output;
+  const operatorSymbols = {
+    divide: '÷',
+    multiply: '×',
+    plus: '+',
+    minus: '-',
   }
+
+  history.innerText = firstNumber + ` ${operatorSymbols[operator]} ` + secondNumber;
   if (key === 'equals') {
     output = obj[`${operator}`](firstNumber, secondNumber);
   } else output = obj[`${key}`](firstNumber, secondNumber);
@@ -87,7 +90,6 @@ function operate(array, obj, key) {
   numbers.push(output);
   input = '';
   readout.innerText = output;
-  if (!showHistory) showHistory = true;
 }
 
 function normalizeInput(input) {
