@@ -62,12 +62,14 @@ function percent() {
 }
 
 function equals(a, b, obj, key) {
+  const aNormal = normalizeInput(a);
+  const bNormal = normalizeInput(b);
   if (showHistory) {
     history.innerText = output;
   }
   if (key === 'equals') {
-    output = obj[`${operation}`](a, b);
-  } else output = (obj[`${key}`](a, b));
+    output = obj[`${operation}`](aNormal, bNormal);
+  } else output = obj[`${key}`](aNormal, bNormal);
   console.log(x, y, output);
   x = output;
   console.log(x, y, output);
@@ -79,6 +81,10 @@ function equals(a, b, obj, key) {
 function normalizeInput(input) {
   let numberInput = Number(input);
   console.log(numberInput);
+
+  if (numberInput === 0) {
+    return 0;
+  }
 
   if (numberInput && numberInput !== NaN) {
     return numberInput;
@@ -165,7 +171,6 @@ function createOperationListeners() {
       })
     } else btn.addEventListener('click', () => { //create event listeners for the rest of operations
       console.log(key);
-      operation = key;
       if (x && input) {
         y = normalizeInput(input);
         equals(x, y, operations, operation);
@@ -173,6 +178,7 @@ function createOperationListeners() {
         x = normalizeInput(input);
         input = '';
       }
+      operation = key;
     })
   }
 }
