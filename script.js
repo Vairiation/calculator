@@ -71,7 +71,7 @@ function createEventListeners() {
   ];
 
   const operations = {
-    delete: remove,
+    remove: remove,
     clear: clear,
     divide: divide,
     multiply: multiply,
