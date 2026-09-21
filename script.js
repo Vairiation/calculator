@@ -34,6 +34,7 @@ function clear() {
   y = '';
   readout.innerText = '';
   history.innerText = '';
+  showHistory = false;
   clearBtn.innerText = 'AC';
 }
 
@@ -191,4 +192,3 @@ calculator();
 // ToDo: 
 // - fix history to show last output or last operation
 // - refactor to use TheOdinProject recommended naming conventions
-// - rename operation to operator
