@@ -34,10 +34,17 @@ function clear() {
 }
 
 function negative() {
-  tmp = Number(input);
-  tmp *= -1;
-  input = tmp;
-  readout.innerText = input;
+  if (input) {
+    tmp = Number(input);
+    tmp *= -1;
+    input = tmp;
+    readout.innerText = input;
+  } else if (output) {
+    tmp = Number(input);
+    tmp *= -1;
+    input = tmp;
+    readout.innerText = input;
+  }
 }
 
 function equals(x, y, obj, key) {
