@@ -66,7 +66,7 @@ function percent() {
   }
 }
 
-function equals(a, b, obj, key) {
+function operate(a, b, obj, key) {
   const aNormal = normalizeInput(a);
   const bNormal = normalizeInput(b);
   if (showHistory) {
@@ -156,7 +156,7 @@ function createoperatorListeners() {
     minus: subtract,
     plus: add,
     negative: negative,
-    equals: equals,
+    equals: operate,
   }
 
   const operatorKeys = Object.keys(operators);
@@ -171,14 +171,14 @@ function createoperatorListeners() {
       btn.addEventListener('click', () => {
         if ((x || x === 0) && input) {
           y = normalizeInput(input);
-          console.log(equals(x, y, operators, 'equals'));
+          console.log(operate(x, y, operators, 'equals'));
         }
       })
     } else btn.addEventListener('click', () => { //create event listeners for the rest of operators
       console.log(key);
       if ((x || x === 0) && input) {
         y = normalizeInput(input);
-        equals(x, y, operators, operator);
+        operate(x, y, operators, operator);
       } else if (input) {
         x = normalizeInput(input);
         input = '';
