@@ -173,7 +173,12 @@ function createoperatorListeners() {
       btn.addEventListener('click', () => operators[`${key}`]());
     } else if (key === 'negative' || key === 'percent') {
       btn.addEventListener('click', () => {
-        input = operators[`${key}`](normalizeInput(input));
+        if (input === '') {
+          input = operators[`${key}`](normalizeInput(numbers[0]));
+          numbers = [];
+        } else {
+          input = operators[`${key}`](normalizeInput(input));
+        }
         readout.innerText = input;
       })
     } else if (key === 'equals') { // create equals operator event listener
