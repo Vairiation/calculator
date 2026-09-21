@@ -47,20 +47,19 @@ function negative() {
   }
 }
 
-function equals(x, y, obj, key) {
+function equals(a, b, obj, key) {
   if (showHistory) {
-    history.innerText = readout.innerText;
+    history.innerText = output;
   }
   if (key === 'equals') {
-    output = obj[`${operation}`](x, y);
-  } else output = (obj[`${key}`](x, y));
-  console.log(x, y, key);
+    output = obj[`${operation}`](a, b);
+  } else output = (obj[`${key}`](a, b));
+  console.log(x, y, output);
   x = output;
-  y = '';
+  console.log(x, y, output);
   input = '';
   readout.innerText = output;
   if (!showHistory) showHistory = true;
-  return output;
 }
 
 let input = '';
@@ -132,7 +131,7 @@ function createOperationListeners() {
       btn.addEventListener('click', () => operations[`${key}`]());
     } else if (key === 'equals') { // create equals operation event listener
       btn.addEventListener('click', () => {
-        if (x) {
+        if (x && input) {
           y = Number(input);
           console.log(equals(x, y, operations, 'equals'));
         }
@@ -140,10 +139,10 @@ function createOperationListeners() {
     } else btn.addEventListener('click', () => { //create event listeners for the rest of operations
       console.log(key);
       operation = key;
-      if (x) {
+      if (x && input) {
         y = Number(input);
         equals(x, y, operations, operation);
-      } else {
+      } else if (input) {
         x = Number(input);
         input = '';
       }
