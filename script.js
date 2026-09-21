@@ -83,16 +83,18 @@ function operate(array, obj, key) {
     multiply: '×',
     plus: '+',
     minus: '-',
+  };
+  numbers = [];
+  input = '';
+  history.innerText = firstNumber + ` ${operatorSymbols[operator]} ` + secondNumber;
+
+  if (key === 'equals') {
+    numbers.push(obj[`${operator}`](firstNumber, secondNumber));
+  } else {
+    numbers.push(obj[`${key}`](firstNumber, secondNumber));
   }
 
-  history.innerText = firstNumber + ` ${operatorSymbols[operator]} ` + secondNumber;
-  if (key === 'equals') {
-    output = obj[`${operator}`](firstNumber, secondNumber);
-  } else output = obj[`${key}`](firstNumber, secondNumber);
-  numbers = [];
-  numbers.push(output);
-  input = '';
-  readout.innerText = output;
+  readout.innerText = numbers[0];
   decimalBtn.disabled = false;
 }
 
