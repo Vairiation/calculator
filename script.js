@@ -1,3 +1,14 @@
+let input = '';
+let operator;
+// let numArray = []; // try using array for nunmber inputs and operators
+// let operatorArray = [];
+let x;
+let y;
+const readout = document.querySelector('.readout');
+const history = document.querySelector('.history');
+const clearBtn = document.querySelector('.clear');
+let showHistory = false;
+
 function add(x, y) {
   return x + y;
 }
@@ -98,22 +109,6 @@ function normalizeInput(input) {
   console.log('cleared');
 }
 
-let input = '';
-let operator;
-// let numArray = []; // try using array for nunmber inputs and operators
-// let operatorArray = [];
-let x;
-let y;
-const readout = document.querySelector('.readout');
-const history = document.querySelector('.history');
-const clearBtn = document.querySelector('.clear');
-let showHistory = false;
-
-function calculator() {
-  createInputListeners();
-  createoperatorListeners();
-}
-
 function createInputListeners() {
   const inputClasses = [
     'one',
@@ -186,6 +181,11 @@ function createoperatorListeners() {
       operator = key;
     })
   }
+}
+
+function calculator() {
+  createInputListeners();
+  createoperatorListeners();
 }
 
 calculator();
