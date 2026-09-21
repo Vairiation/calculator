@@ -72,7 +72,7 @@ function equals(a, b, obj, key) {
     history.innerText = output;
   }
   if (key === 'equals') {
-    output = obj[`${operation}`](aNormal, bNormal);
+    output = obj[`${operator}`](aNormal, bNormal);
   } else output = obj[`${key}`](aNormal, bNormal);
   x = output;
   input = '';
@@ -98,7 +98,7 @@ function normalizeInput(input) {
 }
 
 let input = '';
-let operation;
+let operator;
 // let numArray = []; // try using array for nunmber inputs and operators
 // let operatorArray = [];
 let x;
@@ -110,7 +110,7 @@ let showHistory = false;
 
 function calculator() {
   createInputListeners();
-  createOperationListeners();
+  createoperatorListeners();
 }
 
 function createInputListeners() {
@@ -144,9 +144,9 @@ function createInputListeners() {
   }
 }
 
-function createOperationListeners() {
+function createoperatorListeners() {
 
-  const operations = {
+  const operators = {
     remove: remove,
     clear: clear,
     percent: percent,
@@ -158,31 +158,31 @@ function createOperationListeners() {
     equals: equals,
   }
 
-  const operationKeys = Object.keys(operations);
-  // console.table(operationKeys);
+  const operatorKeys = Object.keys(operators);
+  // console.table(operatorKeys);
 
-  for (let key of operationKeys) {
+  for (let key of operatorKeys) {
     const btn = document.querySelector('.' + key);
 
     if (key == 'clear' || key === 'remove' || key === 'negative' || key === 'percent') {
-      btn.addEventListener('click', () => operations[`${key}`]());
-    } else if (key === 'equals') { // create equals operation event listener
+      btn.addEventListener('click', () => operators[`${key}`]());
+    } else if (key === 'equals') { // create equals operator event listener
       btn.addEventListener('click', () => {
         if ((x || x === 0) && input) {
           y = normalizeInput(input);
-          console.log(equals(x, y, operations, 'equals'));
+          console.log(equals(x, y, operators, 'equals'));
         }
       })
-    } else btn.addEventListener('click', () => { //create event listeners for the rest of operations
+    } else btn.addEventListener('click', () => { //create event listeners for the rest of operators
       console.log(key);
       if ((x || x === 0) && input) {
         y = normalizeInput(input);
-        equals(x, y, operations, operation);
+        equals(x, y, operators, operator);
       } else if (input) {
         x = normalizeInput(input);
         input = '';
       }
-      operation = key;
+      operator = key;
     })
   }
 }
