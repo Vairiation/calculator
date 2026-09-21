@@ -190,5 +190,4 @@ function createoperatorListeners() {
 
 calculator();
 // ToDo: 
-// - fix history to show last output or last operation
 // - refactor to use TheOdinProject recommended naming conventions
