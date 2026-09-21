@@ -15,9 +15,22 @@ function divide(x, y) {
 }
 
 function remove() {
+  if (input) {
+    let array = input.split('');
+    array.pop();
+    input = array.join('');
+    readout.innerText = input;
+  }
 }
 
 function clear() {
+  input = '';
+  ouput = '';
+  x = '';
+  y = '';
+  readout.innerText = '';
+  history.innerText = '';
+  clearBtn.innerText = 'AC';
 }
 
 function negative() {
@@ -29,10 +42,13 @@ function equals(x, y, obj, key) {
 }
 
 let input = '';
-let history = '';
 let operation;
 let x;
-let y = 2;
+let y;
+const readout = document.querySelector('.readout');
+const history = document.querySelector('.history');
+const clearBtn = document.querySelector('.clear');
+let showHistory = false;
 
 function calculator() {
   createEventListeners();
