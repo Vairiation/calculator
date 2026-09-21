@@ -11,6 +11,10 @@ function multiply(x, y) {
 }
 
 function divide(x, y) {
+  if (x === 0) {
+    clear();
+    return 'UNDEFINED';
+  }
   return x / y;
 }
 
@@ -164,14 +168,14 @@ function createOperationListeners() {
       btn.addEventListener('click', () => operations[`${key}`]());
     } else if (key === 'equals') { // create equals operation event listener
       btn.addEventListener('click', () => {
-        if (x && input) {
+        if ((x || x === 0) && input) {
           y = normalizeInput(input);
           console.log(equals(x, y, operations, 'equals'));
         }
       })
     } else btn.addEventListener('click', () => { //create event listeners for the rest of operations
       console.log(key);
-      if (x && input) {
+      if ((x || x === 0) && input) {
         y = normalizeInput(input);
         equals(x, y, operations, operation);
       } else if (input) {
