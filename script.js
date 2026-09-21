@@ -1,9 +1,7 @@
 let input = '';
 let operator;
-// let numArray = []; // try using array for nunmber inputs and operators
+let numbers = [];
 // let operatorArray = [];
-let x;
-let y;
 const readout = document.querySelector('.readout');
 const history = document.querySelector('.history');
 const clearBtn = document.querySelector('.clear');
@@ -41,8 +39,7 @@ function remove() {
 function clear() {
   input = '';
   ouput = '';
-  x = '';
-  y = '';
+  numbers = [];
   readout.innerText = '';
   history.innerText = '';
   showHistory = false;
@@ -77,16 +74,17 @@ function percent() {
   }
 }
 
-function operate(a, b, obj, key) {
-  const aNormal = normalizeInput(a);
-  const bNormal = normalizeInput(b);
+function operate(array, obj, key) {
+  const firstNumber = normalizeInput(array[0]);
+  const secondNumber = normalizeInput(array[1]);
   if (showHistory) {
     history.innerText = output;
   }
   if (key === 'equals') {
-    output = obj[`${operator}`](aNormal, bNormal);
-  } else output = obj[`${key}`](aNormal, bNormal);
-  x = output;
+    output = obj[`${operator}`](firstNumber, secondNumber);
+  } else output = obj[`${key}`](firstNumber, secondNumber);
+  numbers = [];
+  numbers.push(output);
   input = '';
   readout.innerText = output;
   if (!showHistory) showHistory = true;
@@ -94,7 +92,6 @@ function operate(a, b, obj, key) {
 
 function normalizeInput(input) {
   let numberInput = Number(input);
-  console.log(numberInput);
 
   if (numberInput === 0) {
     return 0;
@@ -106,7 +103,6 @@ function normalizeInput(input) {
 
   clear();
   readout.innerText = 'SYNTAX ERROR';
-  console.log('cleared');
 }
 
 function createInputListeners() {
@@ -155,7 +151,6 @@ function createoperatorListeners() {
   }
 
   const operatorKeys = Object.keys(operators);
-  // console.table(operatorKeys);
 
   for (let key of operatorKeys) {
     const btn = document.querySelector('.' + key);
@@ -164,18 +159,17 @@ function createoperatorListeners() {
       btn.addEventListener('click', () => operators[`${key}`]());
     } else if (key === 'equals') { // create equals operator event listener
       btn.addEventListener('click', () => {
-        if ((x || x === 0) && input) {
-          y = normalizeInput(input);
-          console.log(operate(x, y, operators, 'equals'));
+        if ((numbers[0] || numbers[0] === 0) && input) {
+          numbers.push(normalizeInput(input));
+          operate(numbers, operators, 'equals');
         }
       })
     } else btn.addEventListener('click', () => { //create event listeners for the rest of operators
-      console.log(key);
-      if ((x || x === 0) && input) {
-        y = normalizeInput(input);
-        operate(x, y, operators, operator);
+      if ((numbers[0] || numbers[0] === 0) && input) {
+        numbers.push(normalizeInput(input));
+        operate(numbers, operators, operator);
       } else if (input) {
-        x = normalizeInput(input);
+        numbers.push(normalizeInput(input));
         input = '';
       }
       operator = key;
