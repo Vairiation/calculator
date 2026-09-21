@@ -35,15 +35,29 @@ function clear() {
 
 function negative() {
   if (input) {
-    tmp = Number(input);
+    tmp = normalizeInput(input);
     tmp *= -1;
     input = tmp;
     readout.innerText = input;
   } else if (output) {
-    tmp = Number(input);
+    tmp = normalizeInput(input);
     tmp *= -1;
     input = tmp;
     readout.innerText = input;
+  }
+}
+
+function percent() {
+  if (input) {
+    tmp = normalizeInput(input);
+    tmp /= 100;
+    input = tmp;
+    readout.innerText = input;
+  } else if (output) {
+    tmp = normalizeInput(output);
+    tmp /= 100;
+    input = tmp;
+    readout.innerText = output;
   }
 }
 
@@ -62,6 +76,19 @@ function equals(a, b, obj, key) {
   if (!showHistory) showHistory = true;
 }
 
+function normalizeInput(input) {
+  let numberInput = Number(input);
+  console.log(numberInput);
+
+  if (numberInput && numberInput !== NaN) {
+    return numberInput;
+  }
+
+  clear();
+  readout.innerText = 'SYNTAX ERROR';
+  console.log('cleared');
+}
+
 let input = '';
 let operation;
 let x;
@@ -78,7 +105,6 @@ function calculator() {
 
 function createInputListeners() {
   const inputClasses = [
-    'percent',
     'one',
     'two',
     'three',
@@ -113,6 +139,7 @@ function createOperationListeners() {
   const operations = {
     remove: remove,
     clear: clear,
+    percent: percent,
     divide: divide,
     multiply: multiply,
     minus: subtract,
@@ -127,12 +154,12 @@ function createOperationListeners() {
   for (let key of operationKeys) {
     const btn = document.querySelector('.' + key);
 
-    if (key == 'clear' || key === 'remove' || key === 'negative') {
+    if (key == 'clear' || key === 'remove' || key === 'negative' || key === 'percent') {
       btn.addEventListener('click', () => operations[`${key}`]());
     } else if (key === 'equals') { // create equals operation event listener
       btn.addEventListener('click', () => {
         if (x && input) {
-          y = Number(input);
+          y = normalizeInput(input);
           console.log(equals(x, y, operations, 'equals'));
         }
       })
@@ -140,10 +167,10 @@ function createOperationListeners() {
       console.log(key);
       operation = key;
       if (x && input) {
-        y = Number(input);
+        y = normalizeInput(input);
         equals(x, y, operations, operation);
       } else if (input) {
-        x = Number(input);
+        x = normalizeInput(input);
         input = '';
       }
     })
