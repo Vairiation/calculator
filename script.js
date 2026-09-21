@@ -74,9 +74,7 @@ function equals(a, b, obj, key) {
   if (key === 'equals') {
     output = obj[`${operation}`](aNormal, bNormal);
   } else output = obj[`${key}`](aNormal, bNormal);
-  console.log(x, y, output);
   x = output;
-  console.log(x, y, output);
   input = '';
   readout.innerText = output;
   if (!showHistory) showHistory = true;
@@ -101,6 +99,8 @@ function normalizeInput(input) {
 
 let input = '';
 let operation;
+// let numArray = []; // try using array for nunmber inputs and operators
+// let operatorArray = [];
 let x;
 let y;
 const readout = document.querySelector('.readout');
@@ -188,4 +188,7 @@ function createOperationListeners() {
 }
 
 calculator();
-// console.log(add(1, 3), subtract(1, 4), multiply(3.5, 3), divide(27, 2));
+// ToDo: 
+// - fix history to show last output or last operation
+// - refactor to use TheOdinProject recommended naming conventions
+// - rename operation to operator
