@@ -5,6 +5,17 @@ const readout = document.querySelector('.readout');
 const history = document.querySelector('.history');
 const clearBtn = document.querySelector('.clear');
 const decimalBtn = document.querySelector('.decimal');
+const operators = {
+  remove: remove,
+  clear: clear,
+  percent: percent,
+  divide: divide,
+  multiply: multiply,
+  minus: subtract,
+  plus: add,
+  negative: negative,
+  equals: operate,
+}
 
 function add(x, y) {
   return x + y;
@@ -178,19 +189,72 @@ function createInputListeners() {
   }
 }
 
+function createKeyboardListeners() {
+  const doc = document;
+  const clearBtn = document.querySelector('.clear');
+  const keyboardFunctions = {
+    remove: remove,
+    '/': 'divide',
+    '*': 'multiply',
+    '-': 'minus',
+    '+': 'plus',
+  }
+  doc.addEventListener('keyup', (e) => {
+    if (Number(e.key) || Number(e.key) === 0 || e.key === '.') {
+      if (e.key === '.' && decimalBtn.disabled === true) return;
+      if (input.length === 0 && numbers.length === 1 && !operator) {
+        numbers = [];
+      }
+      if (input.length < 14) {
+        input.push(e.key);
+        readoutInput(input);
+      }
+      if (clearBtn.innerText === 'AC') {
+        clearBtn.innerText = 'C';
+      }
+    }
+    switch (e.key) {
+      case 'Backspace' || 'Delete':
+        remove();
+        break;
+      case 'c':
+        clear();
+        break;
+      case '%':
+        percent(input);
+        break;
+      case 'Enter':
+      case '=':
+        if (numbers.length > 0 && input.length > 0) {
+          numbers.push(normalizeInput(input));
+          operate(numbers, operators, 'equals');
+          operator = '';
+        }
+        break;
+      case '*':
+      case '/':
+      case '-':
+      case '+':
+        if (input.length === 0) {
+          operator = keyboardFunctions[e.key];
+          return;
+        } else if (numbers.length === 1) {
+          numbers.push(normalizeInput(input));
+          operate(numbers, operators, keyboardFunctions[e.key]);
+        } else {
+          numbers.push(normalizeInput(input));
+          input = [];
+        }
+        decimalBtn.disabled = false;
+        operator = keyboardFunctions[e.key];
+        break;
+      default:
+    }
+  })
+}
+
 function createoperatorListeners() {
 
-  const operators = {
-    remove: remove,
-    clear: clear,
-    percent: percent,
-    divide: divide,
-    multiply: multiply,
-    minus: subtract,
-    plus: add,
-    negative: negative,
-    equals: operate,
-  }
 
   const operatorKeys = Object.keys(operators);
 
@@ -242,8 +306,7 @@ function createoperatorListeners() {
 function calculator() {
   createInputListeners();
   createoperatorListeners();
+  createKeyboardListeners();
 }
 
 calculator();
-// ToDo: 
-// Keyboard support
