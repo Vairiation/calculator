@@ -80,9 +80,17 @@ function operate(array, obj, key) {
     plus: '+',
     minus: '-',
   };
+  let tmpFirst = firstNumber;
+  let tmpSecond = secondNumber;
   numbers = [];
   input = [];
-  history.innerText = firstNumber + ` ${operatorSymbols[operator]} ` + secondNumber;
+  if (array[0].length > 10) {
+    tmpFirst = firstNumber.toPrecision(10);
+  }
+  if (array[1].length > 10) {
+    tmpSecond = secondNumber.toPrecision(10);
+  }
+  history.innerText = tmpFirst + ` ${operatorSymbols[operator]} ` + tmpSecond;
 
   let tmp;
   if (key === 'equals') {
@@ -127,9 +135,13 @@ function normalizeInput(array) {
 }
 
 function readoutInput(array) {
-  const number = array.join('');
-  readout.innerText = number;
+  let number = array.join('');
   if (number.includes('.')) decimalBtn.disabled = true;
+  if (array.length > 13) {
+    let tempNumber = Number(number).toPrecision(9);
+    number = `${tempNumber}`;
+  }
+  readout.innerText = number;
 }
 
 function createInputListeners() {
@@ -234,5 +246,4 @@ function calculator() {
 
 calculator();
 // ToDo: 
-// Add rounding and scientific notation to output (14 characters max)
 // Keyboard support
