@@ -44,6 +44,7 @@ function remove() {
   input = array.join('');
   readout.innerText = input;
   if (input === '') clearBtn.innerText = 'AC';
+  if (input % 1 !== 0) decimalBtn.disabled = true;
 }
 
 function clear() {
@@ -58,6 +59,7 @@ function clear() {
 
 function negative(number) {
   if (number) {
+    if (number % 1 !== 0) decimalBtn.disabled = true;
     return number * -1;
   }
 }
