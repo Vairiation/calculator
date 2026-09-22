@@ -229,6 +229,7 @@ function calculator() {
 
 calculator();
 // ToDo: 
+// Running operate then typing in new input and running operate again before second number has been chosen or setting new operator causes bug 
 // Add input character limit
-// Add rounding and scientific notation to output
+// Add rounding and scientific notation to output (14 characters max)
 // Keyboard support
