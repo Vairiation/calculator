@@ -59,12 +59,12 @@ body {
     text-align: left;
     color: grey;
     font-size: 4vh;
+    text-align: right;
 }
 
 .readout {
     display: flex;
     align-items: center;
-    text-align: right;
 }
 
 .buttonsContainer {
