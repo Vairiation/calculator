@@ -222,4 +222,7 @@ function calculator() {
 
 calculator();
 // ToDo: 
-// - refactor to use TheOdinProject recommended naming conventions
+// Add input character limit
+// Add rounding and scientific notation to output
+// Fix bug when trying to use remove() on negative number
+// Keyboard support
