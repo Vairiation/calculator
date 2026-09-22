@@ -1,7 +1,6 @@
-let input = '';
+let input = [];
 let operator;
 let numbers = [];
-// let operatorArray = [];
 const readout = document.querySelector('.readout');
 const history = document.querySelector('.history');
 const clearBtn = document.querySelector('.clear');
@@ -29,25 +28,23 @@ function divide(x, y) {
 
 function remove() {
   let tmp;
-  if (input === '' && numbers[0] || numbers[0] === 0) {
-    tmp = `${numbers[0]}`;
+  if (input.length === 0 && numbers.length > 0) {
+    tmp = numbers[0];
     numbers = [];
     history.innerText = '';
-  } else tmp = `${input}`; //convert input to string as edge case for a negative number
-  if (!tmp) return;
-  let array = tmp.split('');
-  if (array[array.length - 1] === '.') decimalBtn.disabled = false;
-  array.pop();
-  input = array.join('');
-  if (input === '-') input = ''; //clears input if only '-' is left over
-  readout.innerText = input;
-  if (input === '') clearBtn.innerText = 'AC';
-  if (input % 1 !== 0) decimalBtn.disabled = true;
+  } else tmp = input; //convert input to string as edge case for a negative number
+  if (!tmp && tmp !== 0) return;
+  tmp.pop();
+  input = tmp;
+  if (input.length === 1 && input[0] === '-') input = []; //clears input if only '-' is left over
+  readoutInput(input);
+  if (input.length === 0) clearBtn.innerText = 'AC';
+  if (tmp.includes('.')) decimalBtn.disabled = true;
+  else decimalBtn.disabled = false;
 }
 
 function clear() {
-  input = '';
-  ouput = '';
+  input = [];
   numbers = [];
   readout.innerText = '';
   history.innerText = '';
@@ -74,8 +71,9 @@ function percent(number) {
 }
 
 function operate(array, obj, key) {
-  const firstNumber = normalizeInput(array[0]);
-  const secondNumber = normalizeInput(array[1]);
+  if (key === '' || operator == '') return;
+  const firstNumber = Number(array[0].join(''));
+  const secondNumber = Number(array[1].join(''));
   const operatorSymbols = {
     divide: '÷',
     multiply: '×',
@@ -83,36 +81,55 @@ function operate(array, obj, key) {
     minus: '-',
   };
   numbers = [];
-  input = '';
+  input = [];
   history.innerText = firstNumber + ` ${operatorSymbols[operator]} ` + secondNumber;
 
+  let tmp;
   if (key === 'equals') {
-    numbers.push(obj[`${operator}`](firstNumber, secondNumber));
+    tmp = obj[`${operator}`](firstNumber, secondNumber);
+    numbers[0] = normalizeInput(tmp);
   } else {
-    numbers.push(obj[`${key}`](firstNumber, secondNumber));
+    tmp = obj[`${key}`](firstNumber, secondNumber);
+    numbers[0] = normalizeInput(tmp);
   }
 
-  readout.innerText = numbers[0];
+  readoutInput(numbers[0]);
   decimalBtn.disabled = false;
 }
 
-function normalizeInput(input) {
-  let numberInput = Number(input);
+function normalizeInput(array) {
+  let number;
+  let numberString;
+  if (typeof (array) === 'number') number = array;
+  else {
+    numberString = array;
+    while (Array.isArray(numberString)) {
+      numberString = numberString.join('');
+    }
+    number = Number(numberString);
+  }
 
-  if (numberInput === 0) {
+  if (number === 0) {
     return 0;
   }
 
-  if (numberInput % 1 === 0) {
+  if (number % 1 === 0) {
     decimalBtn.disabled = false;
   }
 
-  if (numberInput && numberInput !== NaN) {
-    return numberInput;
+  if (number && number !== NaN) {
+    numberString = `${number}`;
+    return numberString.split('');
   }
 
   clear();
   readout.innerText = 'SYNTAX ERROR';
+}
+
+function readoutInput(array) {
+  const number = array.join('');
+  readout.innerText = number;
+  if (number.includes('.')) decimalBtn.disabled = true;
 }
 
 function createInputListeners() {
@@ -134,28 +151,13 @@ function createInputListeners() {
     const btn = document.querySelector('.' + inputClass);
     const value = btn.textContent;
 
-    if (inputClass === 'decimal') {
-      btn.addEventListener('click', () => {
-        decimalBtn.disabled = true;
-        if (!input && input !== 0) {
-          input = value
-        } else input += value;
-        readout.innerText = input;
-        if (clearBtn.innerText === 'AC') {
-          clearBtn.innerText = 'C';
-        }
-      })
-    } else {
-      btn.addEventListener('click', () => {
-        if (!input && input !== 0) {
-          input = value
-        } else input += value;
-        readout.innerText = input;
-        if (clearBtn.innerText === 'AC') {
-          clearBtn.innerText = 'C';
-        }
-      })
-    }
+    btn.addEventListener('click', () => {
+      input.push(value);
+      readoutInput(input);
+      if (clearBtn.innerText === 'AC') {
+        clearBtn.innerText = 'C';
+      }
+    })
   }
 }
 
@@ -182,29 +184,36 @@ function createoperatorListeners() {
       btn.addEventListener('click', () => operators[`${key}`]());
     } else if (key === 'negative' || key === 'percent') {
       btn.addEventListener('click', () => {
-        if (input === '') {
-          input = operators[`${key}`](normalizeInput(numbers[0]));
+        let tempNumber;
+        if (input.length === 0) {
+          tempNumber = `${operators[`${key}`](Number(normalizeInput(numbers[0]).join('')))}`;
           numbers = [];
         } else {
-          input = operators[`${key}`](normalizeInput(input));
+          tempNumber = `${operators[`${key}`](Number(normalizeInput(input).join('')))}`;
         }
-        readout.innerText = input;
+        input = tempNumber.split('');
+        readoutInput(input)
       })
     } else if (key === 'equals') { // create equals operator event listener
       btn.addEventListener('click', () => {
-        if ((numbers[0] || numbers[0] === 0) && input) {
+        if (numbers.length > 0 && input.length > 0) {
           numbers.push(normalizeInput(input));
           operate(numbers, operators, 'equals');
+          operator = '';
         }
       })
     } else {
       btn.addEventListener('click', () => { //create event listeners for the rest of operators
-        if ((numbers[0] || numbers[0] === 0) && input) {
+        if (input.length === 0) {
+          operator = key;
+          return;
+        }
+        else if (numbers.length === 1) {
           numbers.push(normalizeInput(input));
-          operate(numbers, operators, operator);
-        } else if (input) {
+          operate(numbers, operators, key); //might need to switch key with operator
+        } else {
           numbers.push(normalizeInput(input));
-          input = '';
+          input = [];
         }
         decimalBtn.disabled = false;
         operator = key;
