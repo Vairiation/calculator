@@ -155,8 +155,10 @@ function createInputListeners() {
       if (input.length === 0 && numbers.length === 1 && !operator) {
         numbers = [];
       }
-      input.push(value);
-      readoutInput(input);
+      if (input.length < 14) {
+        input.push(value);
+        readoutInput(input);
+      }
       if (clearBtn.innerText === 'AC') {
         clearBtn.innerText = 'C';
       }
@@ -232,6 +234,5 @@ function calculator() {
 
 calculator();
 // ToDo: 
-// Add input character limit
 // Add rounding and scientific notation to output (14 characters max)
 // Keyboard support
