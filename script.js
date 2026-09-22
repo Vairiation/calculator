@@ -152,6 +152,9 @@ function createInputListeners() {
     const value = btn.textContent;
 
     btn.addEventListener('click', () => {
+      if (input.length === 0 && numbers.length === 1 && !operator) {
+        numbers = [];
+      }
       input.push(value);
       readoutInput(input);
       if (clearBtn.innerText === 'AC') {
@@ -229,7 +232,6 @@ function calculator() {
 
 calculator();
 // ToDo: 
-// Running operate then typing in new input and running operate again before second number has been chosen or setting new operator causes bug 
 // Add input character limit
 // Add rounding and scientific notation to output (14 characters max)
 // Keyboard support
