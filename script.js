@@ -178,7 +178,7 @@ function createInputListeners() {
       if (input.length === 0 && numbers.length === 1 && !operator) {
         numbers = [];
       }
-      if (input.length < 14) {
+      if (input.length < 10) {
         input.push(value);
         readoutInput(input);
       }
@@ -205,7 +205,7 @@ function createKeyboardListeners() {
       if (input.length === 0 && numbers.length === 1 && !operator) {
         numbers = [];
       }
-      if (input.length < 14) {
+      if (input.length < 10) {
         input.push(e.key);
         readoutInput(input);
       }
