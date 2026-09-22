@@ -28,13 +28,22 @@ function divide(x, y) {
 }
 
 function remove() {
-  if (input) {
-    let array = input.split('');
-    if (array[array.length - 1] === '.') decimalBtn.disabled = false;
-    array.pop();
-    input = array.join('');
-    readout.innerText = input;
-  }
+  let tmp;
+
+  if (input === '' && numbers[0] || numbers[0] === 0) {
+    tmp = `${numbers[0]}`;
+    numbers = [];
+    history.innerText = '';
+  } else tmp = input;
+
+  if (!tmp) return;
+
+  let array = tmp.split('');
+  if (array[array.length - 1] === '.') decimalBtn.disabled = false;
+  array.pop();
+  input = array.join('');
+  readout.innerText = input;
+  if (input === '') clearBtn.innerText = 'AC';
 }
 
 function clear() {
