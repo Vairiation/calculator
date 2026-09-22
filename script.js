@@ -29,19 +29,17 @@ function divide(x, y) {
 
 function remove() {
   let tmp;
-
   if (input === '' && numbers[0] || numbers[0] === 0) {
     tmp = `${numbers[0]}`;
     numbers = [];
     history.innerText = '';
-  } else tmp = input;
-
+  } else tmp = `${input}`; //convert input to string as edge case for a negative number
   if (!tmp) return;
-
   let array = tmp.split('');
   if (array[array.length - 1] === '.') decimalBtn.disabled = false;
   array.pop();
   input = array.join('');
+  if (input === '-') input = ''; //clears input if only '-' is left over
   readout.innerText = input;
   if (input === '') clearBtn.innerText = 'AC';
   if (input % 1 !== 0) decimalBtn.disabled = true;
@@ -224,5 +222,4 @@ calculator();
 // ToDo: 
 // Add input character limit
 // Add rounding and scientific notation to output
-// Fix bug when trying to use remove() on negative number
 // Keyboard support
