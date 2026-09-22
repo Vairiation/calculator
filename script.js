@@ -221,7 +221,15 @@ function createKeyboardListeners() {
         clear();
         break;
       case '%':
-        percent(input);
+        let tempNumber;
+        if (input.length === 0) {
+          tempNumber = `${percent(Number(normalizeInput(numbers[0]).join('')))}`;
+          numbers = [];
+        } else {
+          tempNumber = `${percent(Number(normalizeInput(input).join('')))}`;
+        }
+        input = tempNumber.split('');
+        readoutInput(input)
         break;
       case 'Enter':
       case '=':
